@@ -13,26 +13,61 @@ function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-var HelloWorld = /*#__PURE__*/function (_React$Component) {
-  _inherits(HelloWorld, _React$Component);
-  function HelloWorld() {
-    _classCallCheck(this, HelloWorld);
-    return _callSuper(this, HelloWorld, arguments);
+var IssueFilter = /*#__PURE__*/function (_React$Component) {
+  _inherits(IssueFilter, _React$Component);
+  function IssueFilter() {
+    _classCallCheck(this, IssueFilter);
+    return _callSuper(this, IssueFilter, arguments);
   }
-  _createClass(HelloWorld, [{
+  _createClass(IssueFilter, [{
     key: "render",
     value: function render() {
-      var continents = ['Africa', 'America', 'Asia', 'Australia', 'Europe'];
-      var helloContinents = Array.from(continents, function (c) {
-        return "Hello ".concat(c, "!");
-      });
-      var message = helloContinents.join(' ');
-      return /*#__PURE__*/React.createElement("div", {
-        title: "Outer div"
-      }, /*#__PURE__*/React.createElement("h1", null, message));
+      return /*#__PURE__*/React.createElement("div", null, "This is a placeholder for the issue filter.");
     }
   }]);
-  return HelloWorld;
+  return IssueFilter;
 }(React.Component);
-var element = /*#__PURE__*/React.createElement(HelloWorld, null);
+var IssueTable = /*#__PURE__*/function (_React$Component2) {
+  _inherits(IssueTable, _React$Component2);
+  function IssueTable() {
+    _classCallCheck(this, IssueTable);
+    return _callSuper(this, IssueTable, arguments);
+  }
+  _createClass(IssueTable, [{
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/React.createElement("div", null, "This is a placeholder for a table of issues.");
+    }
+  }]);
+  return IssueTable;
+}(React.Component);
+var IssueAdd = /*#__PURE__*/function (_React$Component3) {
+  _inherits(IssueAdd, _React$Component3);
+  function IssueAdd() {
+    _classCallCheck(this, IssueAdd);
+    return _callSuper(this, IssueAdd, arguments);
+  }
+  _createClass(IssueAdd, [{
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/React.createElement("div", null, "This is a placeholder for a form to add an issue.");
+    }
+  }]);
+  return IssueAdd;
+}(React.Component);
+var IssueList = /*#__PURE__*/function (_React$Component4) {
+  _inherits(IssueList, _React$Component4);
+  function IssueList() {
+    _classCallCheck(this, IssueList);
+    return _callSuper(this, IssueList, arguments);
+  }
+  _createClass(IssueList, [{
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, "Issue Tracker"), /*#__PURE__*/React.createElement(IssueFilter, null), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(IssueTable, null), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(IssueAdd, null));
+    }
+  }]);
+  return IssueList;
+}(React.Component);
+var element = /*#__PURE__*/React.createElement(IssueList, null);
 ReactDOM.render(element, document.getElementById('content'));

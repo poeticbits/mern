@@ -52,54 +52,17 @@ var sampleIssue = {
 var IssueTable = /*#__PURE__*/function (_React$Component2) {
   _inherits(IssueTable, _React$Component2);
   function IssueTable() {
-    var _this;
     _classCallCheck(this, IssueTable);
-    _this = _callSuper(this, IssueTable);
-    _this.state = {
-      issues: []
-    };
-    return _this;
+    return _callSuper(this, IssueTable, arguments);
   }
   _createClass(IssueTable, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.loadData();
-    }
-  }, {
-    key: "loadData",
-    value: function loadData() {
-      var _this2 = this;
-      setTimeout(function () {
-        _this2.setState({
-          issues: initialIssues
-        });
-      }, 500);
-      setTimeout(function () {
-        _this2.createIssue(Object.assign({}, sampleIssue));
-      }, 2000);
-      setTimeout(function () {
-        _this2.createIssue(Object.assign({}, sampleIssue));
-      }, 3000);
-    }
-  }, {
-    key: "createIssue",
-    value: function createIssue(issue) {
-      issue.id = this.state.issues.length + 1;
-      issue.created = new Date();
-      var newIssueList = this.state.issues.slice();
-      newIssueList.push(issue);
-      this.setState({
-        issues: newIssueList
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
       var rowStyle = {
         border: "1px solid silver",
         padding: 4
       };
-      var issueRows = this.state.issues.map(function (issue) {
+      var issueRows = this.props.issues.map(function (issue) {
         return /*#__PURE__*/React.createElement(IssueRow, {
           key: issue.id,
           rowStyle: rowStyle,
@@ -136,6 +99,17 @@ var IssueAdd = /*#__PURE__*/function (_React$Component4) {
     return _callSuper(this, IssueAdd, arguments);
   }
   _createClass(IssueAdd, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this = this;
+      setTimeout(function () {
+        _this.props.createIssue(Object.assign({}, sampleIssue));
+      }, 2000);
+      setTimeout(function () {
+        _this.props.createIssue(Object.assign({}, sampleIssue));
+      }, 3000);
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/React.createElement("div", null, "This is a placeholder for a form to add an issue.");
@@ -146,13 +120,49 @@ var IssueAdd = /*#__PURE__*/function (_React$Component4) {
 var IssueList = /*#__PURE__*/function (_React$Component5) {
   _inherits(IssueList, _React$Component5);
   function IssueList() {
+    var _this2;
     _classCallCheck(this, IssueList);
-    return _callSuper(this, IssueList, arguments);
+    _this2 = _callSuper(this, IssueList);
+    _this2.state = {
+      issues: []
+    };
+    _this2.createIssue = _this2.createIssue.bind(_assertThisInitialized(_this2));
+    return _this2;
   }
   _createClass(IssueList, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.loadData();
+    }
+  }, {
+    key: "loadData",
+    value: function loadData() {
+      var _this3 = this;
+      setTimeout(function () {
+        _this3.setState({
+          issues: initialIssues
+        });
+      }, 500);
+    }
+  }, {
+    key: "createIssue",
+    value: function createIssue(issue) {
+      issue.id = this.state.issues.length + 1;
+      issue.created = new Date();
+      var newIssueList = this.state.issues.slice();
+      newIssueList.push(issue);
+      this.setState({
+        issues: newIssueList
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, "Issue Tracker"), /*#__PURE__*/React.createElement(IssueFilter, null), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(IssueTable, null), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(IssueAdd, null));
+      return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, "Issue Tracker"), /*#__PURE__*/React.createElement(IssueFilter, null), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(IssueTable, {
+        issues: this.state.issues
+      }), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(IssueAdd, {
+        createIssue: this.createIssue
+      }));
     }
   }]);
   return IssueList;

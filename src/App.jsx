@@ -26,6 +26,10 @@ const initialIssues = [
     title: 'Missing bottom border on panel',
   },
 ];
+const sampleIssue = {
+  status: 'New', owner: 'Pieta',
+  title: 'Completion date should be optional',
+};
 
 class IssueTable extends React.Component {
   constructor() {
@@ -42,6 +46,23 @@ class IssueTable extends React.Component {
     setTimeout(() => {
       this.setState({ issues: initialIssues});
     }, 500);
+
+    setTimeout(() => {
+      this.createIssue(Object.assign({}, sampleIssue));
+    }, 2000);
+
+    setTimeout(() => {
+      this.createIssue(Object.assign({}, sampleIssue));
+    }, 3000);
+  }
+
+  createIssue(issue) {
+    issue.id = this.state.issues.length + 1;
+    issue.created = new Date();
+
+    const newIssueList = this.state.issues.slice();
+    newIssueList.push(issue);
+    this.setState({ issues: newIssueList });
   }
 
   render() {

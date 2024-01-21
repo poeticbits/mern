@@ -44,6 +44,11 @@ var initialIssues = [{
   due: new Date('2018-08-30'),
   title: 'Missing bottom border on panel'
 }];
+var sampleIssue = {
+  status: 'New',
+  owner: 'Pieta',
+  title: 'Completion date should be optional'
+};
 var IssueTable = /*#__PURE__*/function (_React$Component2) {
   _inherits(IssueTable, _React$Component2);
   function IssueTable() {
@@ -69,6 +74,23 @@ var IssueTable = /*#__PURE__*/function (_React$Component2) {
           issues: initialIssues
         });
       }, 500);
+      setTimeout(function () {
+        _this2.createIssue(Object.assign({}, sampleIssue));
+      }, 2000);
+      setTimeout(function () {
+        _this2.createIssue(Object.assign({}, sampleIssue));
+      }, 3000);
+    }
+  }, {
+    key: "createIssue",
+    value: function createIssue(issue) {
+      issue.id = this.state.issues.length + 1;
+      issue.created = new Date();
+      var newIssueList = this.state.issues.slice();
+      newIssueList.push(issue);
+      this.setState({
+        issues: newIssueList
+      });
     }
   }, {
     key: "render",

@@ -51,11 +51,26 @@ var IssueTable = /*#__PURE__*/function (_React$Component2) {
     _classCallCheck(this, IssueTable);
     _this = _callSuper(this, IssueTable);
     _this.state = {
-      issues: initialIssues
+      issues: []
     };
     return _this;
   }
   _createClass(IssueTable, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.loadData();
+    }
+  }, {
+    key: "loadData",
+    value: function loadData() {
+      var _this2 = this;
+      setTimeout(function () {
+        _this2.setState({
+          issues: initialIssues
+        });
+      }, 500);
+    }
+  }, {
     key: "render",
     value: function render() {
       var rowStyle = {

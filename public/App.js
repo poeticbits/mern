@@ -27,11 +27,33 @@ var IssueFilter = /*#__PURE__*/function (_React$Component) {
   }]);
   return IssueFilter;
 }(React.Component);
+var initialIssues = [{
+  id: 1,
+  status: 'New',
+  owner: 'Ravan',
+  effort: 5,
+  created: new Date('2018-08-15'),
+  due: undefined,
+  title: 'Error in console when clikcing Add'
+}, {
+  id: 2,
+  status: 'Assigned',
+  owner: 'Eddie',
+  effort: 14,
+  created: new Date('2018-08-16'),
+  due: new Date('2018-08-30'),
+  title: 'Missing bottom border on panel'
+}];
 var IssueTable = /*#__PURE__*/function (_React$Component2) {
   _inherits(IssueTable, _React$Component2);
   function IssueTable() {
+    var _this;
     _classCallCheck(this, IssueTable);
-    return _callSuper(this, IssueTable, arguments);
+    _this = _callSuper(this, IssueTable);
+    _this.state = {
+      issues: initialIssues
+    };
+    return _this;
   }
   _createClass(IssueTable, [{
     key: "render",
@@ -40,24 +62,7 @@ var IssueTable = /*#__PURE__*/function (_React$Component2) {
         border: "1px solid silver",
         padding: 4
       };
-      var issues = [{
-        id: 1,
-        status: 'New',
-        owner: 'Ravan',
-        effort: 5,
-        created: new Date('2018-08-15'),
-        due: undefined,
-        title: 'Error in console when clikcing Add'
-      }, {
-        id: 2,
-        status: 'Assigned',
-        owner: 'Eddie',
-        effort: 14,
-        created: new Date('2018-08-16'),
-        due: new Date('2018-08-30'),
-        title: 'Missing bottom border on panel'
-      }];
-      var issueRows = issues.map(function (issue) {
+      var issueRows = this.state.issues.map(function (issue) {
         return /*#__PURE__*/React.createElement(IssueRow, {
           key: issue.id,
           rowStyle: rowStyle,

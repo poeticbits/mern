@@ -8,8 +8,8 @@ class IssueFilter extends React.Component {
 
 class IssueTable extends React.Component {
   render() {
-    const rowStyle = {border: "1px solid silver", padding: 4};
-    const issueRows = this.props.issues.map((issue) => 
+    const rowStyle = { border: "1px solid silver", padding: 4 };
+    const issueRows = this.props.issues.map((issue) =>
       <IssueRow key={issue.id} rowStyle={rowStyle} issue={issue} />
     );
 
@@ -45,9 +45,9 @@ class IssueRow extends React.Component {
         <td>{issue.id}</td>
         <td>{issue.status}</td>
         <td>{issue.owner}</td>
-        <td>{issue.created.toDateString()}</td>
+        <td>{issue.created}</td>
         <td>{issue.effort}</td>
-        <td>{issue.due ? issue.due.toDateString() : 'TBD'}</td>
+        <td>{issue.due ? issue.due : 'TBD'}</td>
         <td>{issue.title}</td>
       </tr>
     );
@@ -96,10 +96,24 @@ class IssueList extends React.Component {
     this.loadData();
   }
 
-  loadData() {
-    setTimeout(() => {
-      this.setState({ issues: initialIssues});
-    }, 500);
+  async loadData() {
+    const query = `
+      query {
+        issueList {
+          id title status owner created effort due
+        }
+      }
+    `;
+    const response = await fetch('/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ query }),
+    });
+    const result = await response.json();
+    
+    this.setState({ issues: result.data.issueList });
   }
 
   createIssue(issue) {
@@ -126,5 +140,5 @@ class IssueList extends React.Component {
 }
 
 const element = <IssueList />;
- 
+
 ReactDOM.render(element, document.getElementById('content'));

@@ -27,15 +27,17 @@ async function connectToDb() {
     db = client.db();
 }
 
-function issueAdd(_, { issue }) {
+async function issueAdd(_, { issue }) {
     validateIssue(issue);
     issue.created = new Date();
-    issue.id = issuesDB.length + 1;
+
+    issue.id = await getNextSequence('issues');
 
     if (issue.status == undefined) issue.status = 'New';
-
-    issuesDB.push(issue);
-    return issue;
+    
+    const result = await db.collection('issues').insertOne(issue);
+    const savedIssue = await db.collection('issues').findOne({ _id: result.insertedId});
+    return savedIssue;
 }
 
 function validateIssue(issue) {
@@ -98,6 +100,14 @@ server.applyMiddleware({ app, path: '/graphql' });
 
 app.use(express.static('public'));
 
+async function getNextSequence(name) {
+    const result = await db.collection('counters').findOneAndUpdate(
+        { _id: name },
+        { $inc: { current: 1 } },
+        { returnOriginal: false },
+    );
+    return result.value.current;
+}
 
 (async function () {
     try {

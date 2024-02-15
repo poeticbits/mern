@@ -73,7 +73,7 @@ const GraphQLDate = new GraphQLScalarType({
     },
 });
 
-const typeDefs = fs.readFileSync('./server/schema.graphql', 'utf-8');
+const typeDefs = fs.readFileSync('./schema.graphql', 'utf-8');
 
 const resolvers = {
     Query: {
@@ -98,8 +98,6 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app, path: '/graphql' });
 
-app.use(express.static('public'));
-
 async function getNextSequence(name) {
     const result = await db.collection('counters').findOneAndUpdate(
         { _id: name },
@@ -113,7 +111,7 @@ async function getNextSequence(name) {
     try {
         await connectToDb();
         app.listen(3000, function () {
-            console.log('App started on port 3000');
+            console.log('API server started on port 3000');
         });
     } catch (err) {
         console.log('ERROR:', err);

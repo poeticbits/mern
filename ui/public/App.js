@@ -138,7 +138,7 @@ function _graphQLFetch() {
           variables = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : {};
           _context3.prev = 1;
           _context3.next = 4;
-          return fetch('/graphql', {
+          return fetch('https://upgraded-orbit-7547x44w579cw6vg-3000.app.github.dev/graphql', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'

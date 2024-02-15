@@ -5,6 +5,8 @@ const { GraphQLScalarType } = require('graphql');
 const { Kind } = require('graphql/language');
 const { MongoClient } = require('mongodb');
 
+require('dotenv').config();
+
 let aboutMessage = "Issue Tracker API v1.0";
 
 function setAboutMessage(_, { message }) {
@@ -12,7 +14,7 @@ function setAboutMessage(_, { message }) {
     return true;
 }
 
-const url = "mongodb+srv://poeticbits:TY5wy1Et38snidLu@cluster0.zblreui.mongodb.net/?retryWrites=true&w=majority";
+const url = process.env.DB_URL || "mongodb+srv://poeticbits:TY5wy1Et38snidLu@cluster0.zblreui.mongodb.net/?retryWrites=true&w=majority";
 let db;
 
 async function issueList() {
@@ -96,7 +98,9 @@ const server = new ApolloServer({
     },
 })
 
-server.applyMiddleware({ app, path: '/graphql' });
+const enableCors = (process.env.ENABLE_CORS || 'true') == 'true';
+console.log('CORS setting:', enableCors);
+server.applyMiddleware({ app, path: '/graphql', cors: enableCors });
 
 async function getNextSequence(name) {
     const result = await db.collection('counters').findOneAndUpdate(
@@ -107,11 +111,13 @@ async function getNextSequence(name) {
     return result.value.current;
 }
 
+const port = process.env.API_SERVER_PORT || 3000;
+
 (async function () {
     try {
         await connectToDb();
-        app.listen(3000, function () {
-            console.log('API server started on port 3000');
+        app.listen(port, function () {
+            console.log(`API server started on port ${port}`);
         });
     } catch (err) {
         console.log('ERROR:', err);

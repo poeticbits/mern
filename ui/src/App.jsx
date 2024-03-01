@@ -95,7 +95,7 @@ function jsonDateReviver(key, value) {
 
 async function graphQLFetch(query, variables = {}) {
     try {        
-        const response = await fetch('https://upgraded-orbit-7547x44w579cw6vg-3000.app.github.dev/graphql', {
+        const response = await fetch('http://localhost:3000/graphql', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ query, variables })

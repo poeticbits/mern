@@ -6,12 +6,11 @@ const app = express();
 app.use(express.static('public'));
 
 const apiProxyTarget = process.env.API_PROXY_TARGET;
-console.log(`proxy target: ${apiProxyTarget}`);
 if (apiProxyTarget) {
-    app.use('/graphql', proxy({ target: apiProxyTarget }));
+  app.use('/graphql', proxy({ target: apiProxyTarget }));
 }
 
 const port = process.env.UI_SERVER_PORT || 8000;
-app.listen(port, function() {
-    console.log(`UI started on port ${port}`);
+app.listen(port, () => {
+  console.log(`UI started on port ${port}`);
 });

@@ -586,10 +586,12 @@ var IssueEdit = /*#__PURE__*/function (_React$Component) {
     _this = _callSuper(this, IssueEdit);
     _this.state = {
       issue: {},
-      invalidFields: {}
+      invalidFields: {},
+      showingValidation: false
     }, _this.onChange = _this.onChange.bind(_this);
     _this.handleSubmit = _this.handleSubmit.bind(_this);
     _this.onValidityChange = _this.onValidityChange.bind(_this);
+    _this.dismissValidation = _this.dismissValidation.bind(_this);
     return _this;
   }
   _inherits(IssueEdit, _React$Component);
@@ -641,21 +643,22 @@ var IssueEdit = /*#__PURE__*/function (_React$Component) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
               e.preventDefault();
+              this.showValidation();
               _this$state = this.state, issue = _this$state.issue, invalidFields = _this$state.invalidFields;
               if (!(Object.keys(invalidFields).length !== 0)) {
-                _context.next = 4;
+                _context.next = 5;
                 break;
               }
               return _context.abrupt("return");
-            case 4:
+            case 5:
               query = "mutation issueUpdate(\n      $id: Int!\n      $changes: IssueUpdateInputs!\n    ) {\n      issueUpdate(\n        id: $id\n        changes: $changes\n      ) {\n        id title status owner effort created due description\n      }\n    }";
               id = issue.id, created = issue.created, changes = _objectWithoutProperties(issue, _excluded);
-              _context.next = 8;
+              _context.next = 9;
               return Object(_graphQLFetch_js__WEBPACK_IMPORTED_MODULE_4__["default"])(query, {
                 id: id,
                 changes: changes
               });
-            case 8:
+            case 9:
               data = _context.sent;
               if (data) {
                 this.setState({
@@ -663,7 +666,7 @@ var IssueEdit = /*#__PURE__*/function (_React$Component) {
                 });
                 alert('Update issue successfully');
               }
-            case 10:
+            case 11:
             case "end":
               return _context.stop();
           }
@@ -720,6 +723,20 @@ var IssueEdit = /*#__PURE__*/function (_React$Component) {
       return loadData;
     }()
   }, {
+    key: "showValidation",
+    value: function showValidation() {
+      this.setState({
+        showingValidation: true
+      });
+    }
+  }, {
+    key: "dismissValidation",
+    value: function dismissValidation() {
+      this.setState({
+        showingValidation: false
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       var id = this.state.issue.id;
@@ -740,11 +757,14 @@ var IssueEdit = /*#__PURE__*/function (_React$Component) {
       var _this$state$issue3 = this.state.issue,
         created = _this$state$issue3.created,
         due = _this$state$issue3.due;
-      var invalidFields = this.state.invalidFields;
+      var _this$state2 = this.state,
+        invalidFields = _this$state2.invalidFields,
+        showingValidation = _this$state2.showingValidation;
       var validationMessage;
-      if (Object.keys(invalidFields).length !== 0) {
-        validationMessage = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "error"
+      if (Object.keys(invalidFields).length !== 0 && showingValidation) {
+        validationMessage = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Alert"], {
+          bsStyle: "danger",
+          onDismiss: this.dismissValidation
         }, "Please correct invalid fields before submitting.");
       }
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Panel"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Panel"].Heading, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Panel"].Title, null, "Editing issue: ".concat(id))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Panel"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"], {
@@ -845,7 +865,10 @@ var IssueEdit = /*#__PURE__*/function (_React$Component) {
         to: "/issues"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
         bsStyle: "link"
-      }, "Back")))))), validationMessage), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Panel"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }, "Back"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["FormGroup"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
+        smOffset: 3,
+        sm: 9
+      }, validationMessage)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Panel"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         to: "/edit/".concat(id - 1)
       }, "Prev"), ' | ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         to: "/edit/".concat(id + 1)
